@@ -3,6 +3,7 @@
     <input type="text" />
     <p>{{ wordOfTheDay }}</p>
     <p>You won!</p>
+    <p>Nope! Try again.</p>
   </div>
 </template>
 
