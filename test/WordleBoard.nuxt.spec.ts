@@ -1,11 +1,20 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 
 import WordleBoard from '../app/components/WordleBoard.vue'
-import * as settings from '#shared/settings'
+import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from '#shared/settings'
+
 
 describe('WordleBoard', () => {
   let wordOfTheDay: string = 'TESTS'
+  let wrapper: ReturnType<typeof mount>
+
+  beforeEach(() => {
+    wrapper = mount(WordleBoard, { props: {
+      wordOfTheDay
+    }})
+  })
+
   test('a victory message appears when the user makes a guess that matches the word of the day', async () => {
     const wrapper = mount(WordleBoard, { props: {
       wordOfTheDay
