@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from "#/shared/settings";
+import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from "#shared/settings";
 defineProps<{
   wordOfTheDay: string;
 }>();
