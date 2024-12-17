@@ -5,5 +5,10 @@ export default defineConfig({
   plugins: [vue()],
   test: {
     environment: 'happy-dom',
+    alias: {
+      '@/': new URL('./src/', import.meta.url).pathname,
+      '#/': new URL('./', import.meta.url).pathname,
+      '#shared/': new URL('./shared/', import.meta.url).pathname,
+    }
   },
 });
