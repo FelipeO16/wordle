@@ -24,6 +24,7 @@ describe('WordleBoard', () => {
   }
 
   describe('End of game messages', () => {
+
     test('a victory message appears when the user makes a guess that matches the word of the day', async () => {
       await playerSubmitGuess(wordOfTheDay)
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
@@ -41,6 +42,10 @@ describe('WordleBoard', () => {
   })
 
   describe('Rules for defining the word of the day', () => {
+    beforeEach(() => {
+      console.warn = vi.fn()
+    })
+
     test.each(
       [
         { wordOfTheDay: 'TOO_LONG', reason: 'word-of-the-day must have 5 characters' },
@@ -48,8 +53,6 @@ describe('WordleBoard', () => {
         { wordOfTheDay: 'URBAN', reason: 'word-of-the-day must be a valid Portuguese word' },
       ]
     )('Since $reason: $wordOfTheDay is invalid, therefore a warning must be emitted ', async ({ wordOfTheDay }) => {
-      console.warn = vi.fn()
-
       const wrapper = mount(WordleBoard, {
         props: {
           wordOfTheDay
@@ -59,6 +62,15 @@ describe('WordleBoard', () => {
       expect(console.warn).toHaveBeenCalled()
     }
     )
+    test('no warning is emitted if the word of the day is a real uppercase Portuguese word with 5 characters', async () => {
+      mount(WordleBoard, {
+        props: {
+          wordOfTheDay: 'TESTE'
+        }
+      })
+
+      expect(console.warn).not.toHaveBeenCalled();
+    })
   })
   describe('player input', () => {
     test.todo('player guesses are limited to 5 characters')
