@@ -39,8 +39,7 @@ describe('WordleBoard', () => {
   })
 
   test('If a word of the day provided does not have exactly 5 characters, an error message is displayed', async () => {
-    const spy = vi.spyOn(console, 'warn')
-    spy.mockImplementation( () => null );
+    console.warn = vi.fn()
 
     const wrapper = mount(WordleBoard, {
       props: {
@@ -51,4 +50,28 @@ describe('WordleBoard', () => {
     expect(console.warn).toHaveBeenCalled()
   }
   )
+
+  test('If the word of the day is not all in upper case, a warning is emitted', () => {
+    console.warn = vi.fn()
+
+    mount(WordleBoard, {
+      props: {
+        wordOfTheDay: 'lower'
+      }
+    })
+    
+    expect(console.warn).toHaveBeenCalled()
+  })
+
+  test('If the word of the day is not a real Portuguese word, a warning is emitted', () => {
+    console.warn = vi.fn()
+
+    mount(WordleBoard, {
+      props: {
+        wordOfTheDay: 'RISAO'
+      }
+    })
+
+    expect(console.warn).toHaveBeenCalled()
+  })
 })
