@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from "#shared/settings";
+import { ref, computed } from "vue";
+import { DEFEAT_MESSAGE, VICTORY_MESSAGE, WORD_LENGTH } from "#shared/settings";
 import words from "#shared/settings/words.json";
 defineProps({
   wordOfTheDay:{
@@ -13,17 +13,20 @@ defineProps({
 const guessInProgress = ref("");
 const guessSubmitted = ref("");
 
-
+const formattedGuessInProgress = computed({
+  get: () => guessInProgress.value,
+  set: (value: string) => {
+    guessInProgress.value = value.slice(0, WORD_LENGTH);
+  }
+})
 
 </script>
 
 <template>
   <div>
-    <input type="text" v-model="guessInProgress" @keydown.enter="guessSubmitted = guessInProgress" />
+    <input type="text" :maxlength="WORD_LENGTH" v-model="formattedGuessInProgress" @keydown.enter="guessSubmitted = guessInProgress" />
     <p v-if="guessSubmitted.length > 0 " v-text="guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE" />
     {{guessSubmitted}}
-
-    {{words}}
   </div>
 </template>
 
