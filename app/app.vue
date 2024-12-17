@@ -1,6 +1,6 @@
 <template>
   <div>
     <h1>Wordle</h1>
-    <WordleBoard  wordOfTheDay="TESTS"/>
+    <WordleBoard  wordOfTheDay="TESTE"/>
   </div>
 </template>

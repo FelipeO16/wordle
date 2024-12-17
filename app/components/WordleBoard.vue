@@ -5,9 +5,8 @@ import words from "#shared/settings/words.json";
 defineProps({
   wordOfTheDay:{
     type: String,
-    default: '',
     required: true,
-    validator: (word: string) => word.length === 5 && /^[A-Z]+$/.test(word) && words.includes(word),
+    validator: (word: string) => /^[A-Z]+$/.test(word) && words.includes(word.toLowerCase()),
   }
 })
 
