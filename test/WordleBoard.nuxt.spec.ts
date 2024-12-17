@@ -25,28 +25,22 @@ describe('WordleBoard', () => {
 
   test('a victory message appears when the user makes a guess that matches the word of the day', async () => {
     await playerSubmitGuess(wordOfTheDay)
-
     expect(wrapper.text()).toContain(VICTORY_MESSAGE)
   })
 
   test('a defeat message appears when the user makes a guess that does not match the word of the day', async () => {
     await playerSubmitGuess('WRONG')
-
     expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
   })
 
   test('no end-of-game message appears if the user has not yet made a guess', async () => {
-    const wrapper = mount(WordleBoard, {
-      props: {
-        wordOfTheDay
-      }
-    })
     expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
     expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
   })
 
   test('If a word of the day provided does not have exactly 5 characters, an error message is displayed', async () => {
-    vi.spyOn(console, 'warn')
+    const spy = vi.spyOn(console, 'warn')
+    spy.mockImplementation( () => null );
 
     const wrapper = mount(WordleBoard, {
       props: {

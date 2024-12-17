@@ -4,7 +4,9 @@ import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from "../../shared/settings";
 defineProps({
   wordOfTheDay:{
     type: String,
-    validator: (value: string) => value.length === 5
+    default: '',
+    required: true,
+    validator: (value: string) => value.length === 5,
   }
 })
 
