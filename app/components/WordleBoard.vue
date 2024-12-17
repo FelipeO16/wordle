@@ -20,11 +20,18 @@ const formattedGuessInProgress = computed({
   }
 })
 
+const onSubmit = () => {
+  if (!words.includes(guessInProgress.value.toLowerCase())) {
+    return;
+  }
+  guessSubmitted.value = guessInProgress.value;
+}
+
 </script>
 
 <template>
   <div>
-    <input type="text" :maxlength="WORD_LENGTH" v-model="formattedGuessInProgress" @keydown.enter="guessSubmitted = guessInProgress" />
+    <input type="text" :maxlength="WORD_LENGTH" v-model="formattedGuessInProgress" @keydown.enter="onSubmit" />
     <p v-if="guessSubmitted.length > 0 " v-text="guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE" />
     {{guessSubmitted}}
   </div>
