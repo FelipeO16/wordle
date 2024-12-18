@@ -1,9 +1,18 @@
 <script lang="ts" setup>
 import {WORD_LENGTH} from "#shared/settings"
-import words from "#shared/settings/words.json"
-import {computed, ref, triggerRef} from "vue"
 
-withDefaults(defineProps<{ guess: string, shouldFlip?: boolean }>(), {shouldFlip: false})
+const props = defineProps<{ guess: string, answer?: string }>()
+function getFeedback(letterPosition: number): null | "correct" | "incorrect" | "almost" {
+  if (!props.answer) {
+    return null
+  }
+  const letterGuessed = props.guess[letterPosition]
+  const letterExpected = props.answer[letterPosition]
+  if (!props.answer.includes(letterGuessed)) {
+    return "incorrect"
+  }
+  return letterExpected === letterGuessed ? "correct" : "almost"
+}
 </script>
 
 <template>
@@ -11,8 +20,8 @@ withDefaults(defineProps<{ guess: string, shouldFlip?: boolean }>(), {shouldFlip
     <li v-for="(letter, index) in guess.padEnd(WORD_LENGTH, ' ')"
         :key="`${letter}-${index}`"
         :data-letter="letter"
-        :class="{'with-flips': shouldFlip}"
-        :data-letter-feedback="shouldFlip ? 'unknown' : null"
+        :class="{'with-flips': answer}"
+        :data-letter-feedback="getFeedback(index)"
         class="letter"
         v-text="letter"/>
   </ul>
@@ -49,6 +58,16 @@ li:not([data-letter=" "]) {
   50% {
     transform: scale(1.4);
   }
+}
+
+[data-letter-feedback=correct] {
+  --back-color: hsl(120, 25%, 65%);
+}
+[data-letter-feedback=almost] {
+  --back-color: hsl(40, 65%, 48%);
+}
+[data-letter-feedback=incorrect] {
+  --back-color: hsl(0, 0%, 70%);
 }
 
 $maxWordSize: 5;
