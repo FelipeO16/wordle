@@ -25,7 +25,12 @@ const isGameOver = computed(
 </script>
 
 <template>
-  <div>
+  <main>
+    <ul>
+      <li v-for="guess, index in guessesSubmitted">
+        {{ guess }}
+      </li>
+    </ul>
     <GuessInput @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
     <p
       v-if="isGameOver"
@@ -35,8 +40,7 @@ const isGameOver = computed(
           : DEFEAT_MESSAGE
       "
     />
-    <pre> {{ guessesSubmitted }} </pre>
-  </div>
+  </main>
 </template>
 
 <style scoped>

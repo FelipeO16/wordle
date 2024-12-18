@@ -124,6 +124,12 @@ describe('WordleBoard', () => {
       await wrapper.find("input[type=text]").trigger("blur")
       expect(document.activeElement).toBe(wrapper.find("input[type=text]").element)
     })
+
+    test('the input gets cleared after each submission', async () => {
+      await playerSubmitGuess('TESTA')
+      expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')
+    })
+
     test('player guesses are limited to 5 characters', async () => {
       await playerSubmitGuess(wordOfTheDay + 'EXTRA')
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
@@ -149,6 +155,31 @@ describe('WordleBoard', () => {
       await playerSubmitGuess('123')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')
     })
+  })
+
+  test('all previous guesses done by the player are visible in the page', async () => {
+    // abaco abade abafa abafe abafo
+    const guesses = [
+      'ABACO',
+      'ABADE',
+      'ABAFA',
+      'ABAFE',
+      'ABAFO',
+      'TESTA',
+    ]
+    for (const guess of guesses) {
+      await playerSubmitGuess(guess)
+    }
+
+    for (const guess of guesses) {
+      expect(wrapper.text()).toContain(guess)
+    }
+
+    // const guessElements = wrapper.findAll('.guess')
+    // expect(guessElements.length).toBe(guesses.length)
+    // guessElements.forEach((guessElement, index) => {
+    //   expect(guessElement.text()).toContain(guesses[index])
+    // })
   })
 
 })
