@@ -36,9 +36,25 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
 
-    test('a defeat message appears when the user makes a guess that does not match the word of the day', async () => {
-      await playerSubmitGuess('ABACO')
-      expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
+    describe.each([
+      { numberOfGuesses: 0, shoudSeeDefeatMessage: false},
+      { numberOfGuesses: 1, shoudSeeDefeatMessage: false},
+      { numberOfGuesses: 2, shoudSeeDefeatMessage: false},
+      { numberOfGuesses: 3, shoudSeeDefeatMessage: false},
+      { numberOfGuesses: 4, shoudSeeDefeatMessage: false},
+      { numberOfGuesses: 5, shoudSeeDefeatMessage: false},
+      { numberOfGuesses: 6, shoudSeeDefeatMessage: true},
+    ])('a defeat message should appear if the player makes incorrect guesses 6 times in a row', ({ numberOfGuesses, shoudSeeDefeatMessage }) => {
+      test(`therefore for ${numberOfGuesses} guess(es), a defeat message should ${shoudSeeDefeatMessage ? '' : 'not'} appear`, async () => {
+        for (let i = 0; i < numberOfGuesses; i++) {
+          await playerSubmitGuess('TESTA')
+        }
+        if (shoudSeeDefeatMessage) {
+          expect(wrapper.text()).toContain(DEFEAT_MESSAGE)
+        } else {
+          expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
+        }
+      })
     })
 
     test('no end-of-game message appears if the user has not yet made a guess', async () => {
@@ -89,27 +105,44 @@ describe('WordleBoard', () => {
     })
   })
   describe('player input', () => {
-    test('player guesses are limited to 5 characters', async() => {
+    test("remains in focus the entire time", async () => {
+      document.body.innerHTML = `<div id="app"></div>`
+      wrapper = mount(WordleBoard, {
+        global: {
+          components: {
+            GuessInput
+          },
+        },
+        props: { wordOfTheDay },
+        attachTo: "#app"
+      })
+
+      expect(wrapper.find("input[type=text]").attributes("autofocus")).not.toBeUndefined()
+
+      await wrapper.find("input[type=text]").trigger("blur")
+      expect(document.activeElement).toBe(wrapper.find("input[type=text]").element)
+    })
+    test('player guesses are limited to 5 characters', async () => {
       await playerSubmitGuess(wordOfTheDay + 'EXTRA')
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
 
-    test('player guesses can only be submitted if they are real words', async() => {
+    test('player guesses can only be submitted if they are real words', async () => {
       await playerSubmitGuess('QWERT')
 
       expect(wrapper.text()).not.toContain(VICTORY_MESSAGE)
       expect(wrapper.text()).not.toContain(DEFEAT_MESSAGE)
     })
-    test('player guesses are not case-sensitive', async() => {
+    test('player guesses are not case-sensitive', async () => {
       await playerSubmitGuess(wordOfTheDay.toLowerCase())
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
-    test('player guesses can only contain letters', async() => {
+    test('player guesses can only contain letters', async () => {
       await playerSubmitGuess('H3!T2')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('HT')
     })
 
-    test('non-letter characters do not render on the screen while being type', async() => {
+    test('non-letter characters do not render on the screen while being type', async () => {
       await playerSubmitGuess('12')
       await playerSubmitGuess('123')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')

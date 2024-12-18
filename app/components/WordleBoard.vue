@@ -7,23 +7,48 @@ defineProps({
   wordOfTheDay: {
     type: String,
     required: true,
-    validator: (word: string) =>
-      /^[A-Z]+$/.test(word) && words.includes(word.toLowerCase()),
+    validator: (word: string) => words.includes(word.toLowerCase()),
   },
 });
 
-const guessSubmitted = ref<string>("");
+const guessesSubmitted = ref<string[]>([]);
 </script>
 
 <template>
   <div>
-    <GuessInput @guess-submitted="guess => guessSubmitted = guess" />
+    <GuessInput @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
     <p
-      v-if="guessSubmitted.length > 0"
+      v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
       v-text="
-        guessSubmitted === wordOfTheDay ? VICTORY_MESSAGE : DEFEAT_MESSAGE
+        guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE
       "
     />
-    {{ guessSubmitted }}
+    <pre> {{ guessesSubmitted }} </pre>
   </div>
 </template>
+
+<style scoped>
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+end-of-game-message {
+  font-size: 3rem;
+  animation: end-of-game-message-animation 700ms forwards;
+  white-space: nowrap;
+  text-align: center;
+}
+@keyframes end-of-game-message-animation {
+  0% {
+    opacity: 0;
+    transform: rotateZ(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(2rem);
+  }
+}
+</style>
