@@ -159,13 +159,13 @@ describe('WordleBoard', () => {
       expect(wrapper.text()).toContain(VICTORY_MESSAGE)
     })
     test('player guesses can only contain letters', async () => {
-      await playerTypesAndSubmitsGuess('H3!T2')
+      await playerTypesGuess('H3!T2')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('HT')
     })
 
     test('non-letter characters do not render on the screen while being type', async () => {
-      await playerTypesAndSubmitsGuess('12')
-      await playerTypesAndSubmitsGuess('123')
+      await playerTypesGuess('12')
+      await playerTypesGuess('123')
       expect(wrapper.find<HTMLInputElement>('input[type="text"]').element.value).toEqual('')
     })
 
