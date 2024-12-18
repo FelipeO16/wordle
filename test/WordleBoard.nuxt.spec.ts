@@ -1,7 +1,8 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 
-import WordleBoard from '../app/components/WordleBoard.vue'
+import WordleBoard from '@/components/WordleBoard.vue'
+import GuessInput from '@/components/GuessInput.vue'
 import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from '../shared/settings'
 
 
@@ -11,9 +12,14 @@ describe('WordleBoard', () => {
 
   beforeEach(() => {
     wrapper = mount(WordleBoard, {
+      global: {
+        components: {
+          GuessInput
+        },
+      },
       props: {
         wordOfTheDay
-      }
+      },
     })
   })
 
@@ -54,6 +60,11 @@ describe('WordleBoard', () => {
       ]
     )('Since $reason: $wordOfTheDay is invalid, therefore a warning must be emitted ', async ({ wordOfTheDay }) => {
       const wrapper = mount(WordleBoard, {
+        global: {
+          components: {
+            GuessInput
+          },
+        },
         props: {
           wordOfTheDay
         }
@@ -64,6 +75,11 @@ describe('WordleBoard', () => {
     )
     test('no warning is emitted if the word of the day is a real uppercase Portuguese word with 5 characters', async () => {
       mount(WordleBoard, {
+        global: {
+          components: {
+            GuessInput
+          },
+        },
         props: {
           wordOfTheDay: 'TESTE'
         }

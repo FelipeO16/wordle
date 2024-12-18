@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, triggerRef } from "vue";
-import { DEFEAT_MESSAGE, VICTORY_MESSAGE, WORD_LENGTH } from "#shared/settings";
+import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from "#shared/settings";
+import { ref } from "vue";
 import words from "#shared/settings/words.json";
+
 defineProps({
   wordOfTheDay: {
     type: String,
@@ -11,38 +12,12 @@ defineProps({
   },
 });
 
-const guessInProgress = ref<string | null>("");
-const guessSubmitted = ref("");
-
-const formattedGuessInProgress = computed<string>({
-  get: () => guessInProgress.value ?? "",
-  set: (value: string) => {
-    guessInProgress.value = null
-    guessInProgress.value = value
-    .slice(0, WORD_LENGTH)
-    .toUpperCase()
-    .replace(/[^A-Z]+/gi, "");
-    triggerRef(formattedGuessInProgress);
-  },
-});
-
-const onSubmit = () => {
-  if (!words.includes(formattedGuessInProgress.value.toLowerCase())) {
-    return;
-  }
-
-  guessSubmitted.value = formattedGuessInProgress.value;
-};
+const guessSubmitted = ref<string>("");
 </script>
 
 <template>
   <div>
-    <input
-      type="text"
-      :maxlength="WORD_LENGTH"
-      v-model="formattedGuessInProgress"
-      @keydown.enter="onSubmit"
-    />
+    <GuessInput @guess-submitted="guess => guessSubmitted = guess" />
     <p
       v-if="guessSubmitted.length > 0"
       v-text="
