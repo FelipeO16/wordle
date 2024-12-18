@@ -25,10 +25,18 @@ describe('WordleBoard', () => {
     })
   })
 
+  const playerTypesGuess = async (guess: string) => {
+    await wrapper.find('input[type="text"]').setValue(guess)
+  }
+
+  const playerPressEnter = async () => {
+    await wrapper.find('input[type="text"]').trigger("keydown.enter")
+  }
+
   const playerTypesAndSubmitsGuess = async (guess: string) => {
-    const input = wrapper.find('input[type="text"]')
-    input.setValue(guess)
-    await input.trigger("keydown.enter")
+    await playerTypesGuess(guess)
+    await playerPressEnter()
+
   }
 
   describe('End of game messages', () => {
