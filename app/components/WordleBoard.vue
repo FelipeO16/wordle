@@ -28,7 +28,7 @@ const isGameOver = computed(
   <main>
     <ul>
       <li v-for="guess, index in guessesSubmitted">
-        {{ guess }}
+        <GuessView :guess="guess" />
       </li>
     </ul>
     <GuessInput @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
@@ -49,6 +49,18 @@ main {
   flex-direction: column;
   align-items: center;
   margin-top: 3rem;
+}
+
+li {
+  margin-bottom: 0.25rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  list-style: none;
 }
 
 end-of-game-message {
