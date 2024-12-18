@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 
 import WordleBoard from '@/components/WordleBoard.vue'
 import GuessInput from '@/components/GuessInput.vue'
+import GuessView from '@/components/GuessView.vue'
 import { DEFEAT_MESSAGE, MAX_GUESS_ATTEMPTS, VICTORY_MESSAGE } from '../shared/settings'
 
 
@@ -95,7 +96,8 @@ describe('WordleBoard', () => {
       mount(WordleBoard, {
         global: {
           components: {
-            GuessInput
+            GuessInput,
+            GuessView
           },
         },
         props: {
