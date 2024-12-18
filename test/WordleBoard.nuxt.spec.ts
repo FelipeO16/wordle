@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 
 import WordleBoard from '@/components/WordleBoard.vue'
 import GuessInput from '@/components/GuessInput.vue'
-import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from '../shared/settings'
+import { DEFEAT_MESSAGE, MAX_GUESS_ATTEMPTS, VICTORY_MESSAGE } from '../shared/settings'
 
 
 describe('WordleBoard', () => {
@@ -43,7 +43,7 @@ describe('WordleBoard', () => {
       { numberOfGuesses: 3, shoudSeeDefeatMessage: false},
       { numberOfGuesses: 4, shoudSeeDefeatMessage: false},
       { numberOfGuesses: 5, shoudSeeDefeatMessage: false},
-      { numberOfGuesses: 6, shoudSeeDefeatMessage: true},
+      { numberOfGuesses: MAX_GUESS_ATTEMPTS, shoudSeeDefeatMessage: true},
     ])('a defeat message should appear if the player makes incorrect guesses 6 times in a row', ({ numberOfGuesses, shoudSeeDefeatMessage }) => {
       test(`therefore for ${numberOfGuesses} guess(es), a defeat message should ${shoudSeeDefeatMessage ? '' : 'not'} appear`, async () => {
         for (let i = 0; i < numberOfGuesses; i++) {

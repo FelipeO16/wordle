@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DEFEAT_MESSAGE, VICTORY_MESSAGE } from "#shared/settings";
+import { DEFEAT_MESSAGE, MAX_GUESS_ATTEMPTS, VICTORY_MESSAGE } from "#shared/settings";
 import { ref } from "vue";
 import words from "#shared/settings/words.json";
 
@@ -18,7 +18,7 @@ const guessesSubmitted = ref<string[]>([]);
   <div>
     <GuessInput @guess-submitted="(guess) => guessesSubmitted.push(guess)" />
     <p
-      v-if="guessesSubmitted.length === 6 || guessesSubmitted.includes(wordOfTheDay)"
+      v-if="guessesSubmitted.length === MAX_GUESS_ATTEMPTS || guessesSubmitted.includes(wordOfTheDay)"
       v-text="
         guessesSubmitted.includes(wordOfTheDay) ? VICTORY_MESSAGE : DEFEAT_MESSAGE
       "
