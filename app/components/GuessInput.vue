@@ -29,13 +29,7 @@ function onSubmit() {
 </script>
 
 <template>
-  <ul class="word">
-    <li v-for="(letter, index) in formattedGuessInProgress.padEnd(WORD_LENGTH, ' ')"
-        :key="`${letter}-${index}`"
-        :data-letter="letter"
-        class="letter"
-        v-text="letter"/>
-  </ul>
+  <GuessView :guess="formattedGuessInProgress" />
 
   <input v-model="formattedGuessInProgress"
          :maxlength="WORD_LENGTH"
