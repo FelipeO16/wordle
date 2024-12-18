@@ -1,42 +1,50 @@
 <script lang="ts" setup>
-import {WORD_LENGTH} from "#shared/settings"
-import words from "#shared/settings/words.json"
-import {computed, ref, triggerRef} from "vue"
-const guessInProgress = ref<string | null>(null)
+import { WORD_LENGTH } from "#shared/settings";
+import words from "#shared/settings/words.json";
+import { computed, ref, triggerRef } from "vue";
+
+withDefaults(defineProps<{ disabled: boolean }>(), {
+  disabled: false,
+});
+const guessInProgress = ref<string | null>(null);
 const emit = defineEmits<{
-  "guess-submitted": [guess: string]
-}>()
+  "guess-submitted": [guess: string];
+}>();
 const formattedGuessInProgress = computed<string>({
   get() {
-    return guessInProgress.value ?? ""
+    return guessInProgress.value ?? "";
   },
   set(rawValue: string) {
-    guessInProgress.value = null
+    guessInProgress.value = null;
     guessInProgress.value = rawValue
-        .slice(0, WORD_LENGTH)
-        .toUpperCase()
-        .replace(/[^A-Z]+/gi, "")
-        triggerRef(formattedGuessInProgress);
-  }
-})
+      .slice(0, WORD_LENGTH)
+      .toUpperCase()
+      .replace(/[^A-Z]+/gi, "");
+    triggerRef(formattedGuessInProgress);
+  },
+});
+
 function onSubmit() {
   if (!words.includes(formattedGuessInProgress.value.toLowerCase())) {
-    return
+    return;
   }
-  emit("guess-submitted", formattedGuessInProgress.value)
-  guessInProgress.value = null
+  emit("guess-submitted", formattedGuessInProgress.value);
+  guessInProgress.value = null;
 }
 </script>
 
 <template>
-  <GuessView :guess="formattedGuessInProgress" />
+  <GuessView v-if="!disabled" :guess="formattedGuessInProgress" />
 
-  <input v-model="formattedGuessInProgress"
-         :maxlength="WORD_LENGTH"
-         autofocus
-         @blur="({target}) => (target as HTMLInputElement).focus()"
-         type="text"
-         @keydown.enter="onSubmit">
+  <input
+    v-model="formattedGuessInProgress"
+    :maxlength="WORD_LENGTH"
+    :disabled="disabled"
+    autofocus
+    @blur="({target}) => (target as HTMLInputElement).focus()"
+    type="text"
+    @keydown.enter="onSubmit"
+  />
 </template>
 
 <style scoped>
