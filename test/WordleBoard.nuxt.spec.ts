@@ -15,7 +15,8 @@ describe('WordleBoard', () => {
     wrapper = mount(WordleBoard, {
       global: {
         components: {
-          GuessInput
+          GuessInput,
+          GuessView
         },
       },
       props: {
@@ -81,7 +82,8 @@ describe('WordleBoard', () => {
       const wrapper = mount(WordleBoard, {
         global: {
           components: {
-            GuessInput
+            GuessInput,
+            GuessView
           },
         },
         props: {
@@ -114,7 +116,8 @@ describe('WordleBoard', () => {
       wrapper = mount(WordleBoard, {
         global: {
           components: {
-            GuessInput
+            GuessInput,
+            GuessView
           },
         },
         props: { wordOfTheDay },
