@@ -5,5 +5,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4
   },
-  modules: ['@nuxt/test-utils']
+
+  ssr: false,
+  modules: ['@nuxt/test-utils', '@nuxtjs/tailwindcss']
 })
