@@ -9,6 +9,7 @@ withDefaults(defineProps<{ disabled: boolean }>(), {
 const guessInProgress = ref<string | null>(null);
 const emit = defineEmits<{
   "guess-submitted": [guess: string];
+  "letters-status": [guess: string];
 }>();
 const formattedGuessInProgress = computed<string>({
   get() {
@@ -24,6 +25,7 @@ const formattedGuessInProgress = computed<string>({
   },
 });
 
+
 function onSubmit() {
   if (!words.includes(formattedGuessInProgress.value.toLowerCase())) {
     hasFailedValidation.value = true;
@@ -31,6 +33,7 @@ function onSubmit() {
     return;
   }
   emit("guess-submitted", formattedGuessInProgress.value);
+  emit("letters-status", formattedGuessInProgress.value);
   guessInProgress.value = null;
 }
 
@@ -49,6 +52,7 @@ const hasFailedValidation = ref<boolean>(false);
     type="text"
     @keydown.enter="onSubmit"
   />
+  
 </template>
 
 <style scoped>
@@ -63,7 +67,7 @@ input {
   gap: 0.25rem;
 }
 .letter {
-  background-color: white;
+  background-color: #3a3839;
   border: 1px solid hsl(0, 0%, 70%);
   width: 5rem;
   height: 5rem;

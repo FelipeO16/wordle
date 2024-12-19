@@ -36,12 +36,13 @@ function getFeedback(letterPosition: number): null | "correct" | "incorrect" | "
 }
 .letter {
   background-color: white;
-  border: 1px solid hsl(0, 0%, 70%);
+  // border: 1px solid hsl(0, 0%, 70%);
   width: 5rem;
   height: 5rem;
   display: flex;
-  --front-color: hsl(0, 0%, 99%);
+  --front-color: #3a3839;
   --back-color: hsl(0, 0%, 70%);
+  color:white;
   background-color: var(--front-color);
   justify-content: center;
   align-items: center;
@@ -61,13 +62,13 @@ li:not([data-letter=" "]) {
 }
 
 [data-letter-feedback=correct] {
-  --back-color: hsl(120, 25%, 65%);
+  --back-color: #328a12;
 }
 [data-letter-feedback=almost] {
-  --back-color: hsl(40, 65%, 48%);
+  --back-color: #d8ba0e;
 }
 [data-letter-feedback=incorrect] {
-  --back-color: hsl(0, 0%, 70%);
+  --back-color: #3a3839;
 }
 
 $maxWordSize: 5;

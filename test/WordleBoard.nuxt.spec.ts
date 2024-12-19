@@ -5,6 +5,7 @@ import WordleBoard from '@/components/WordleBoard.vue'
 import GuessInput from '@/components/GuessInput.vue'
 import GuessView from '@/components/GuessView.vue'
 import { DEFEAT_MESSAGE, MAX_GUESS_ATTEMPTS, VICTORY_MESSAGE } from '../shared/settings'
+import KeyboardView from '@/components/KeyboardView.vue'
 
 
 describe('WordleBoard', () => {
@@ -16,7 +17,8 @@ describe('WordleBoard', () => {
       global: {
         components: {
           GuessInput,
-          GuessView
+          GuessView,
+          KeyboardView
         },
       },
       props: {
@@ -91,7 +93,8 @@ describe('WordleBoard', () => {
         global: {
           components: {
             GuessInput,
-            GuessView
+            GuessView,
+            KeyboardView
           },
         },
         props: {
@@ -107,7 +110,8 @@ describe('WordleBoard', () => {
         global: {
           components: {
             GuessInput,
-            GuessView
+            GuessView,
+            KeyboardView
           },
         },
         props: {
@@ -125,7 +129,8 @@ describe('WordleBoard', () => {
         global: {
           components: {
             GuessInput,
-            GuessView
+            GuessView,
+            KeyboardView
           },
         },
         props: { wordOfTheDay },
@@ -289,7 +294,8 @@ describe('WordleBoard', () => {
         global: {
           components: {
             GuessInput,
-            GuessView
+            GuessView,
+            KeyboardView
           },
         }, propsData: { wordOfTheDay }
       })

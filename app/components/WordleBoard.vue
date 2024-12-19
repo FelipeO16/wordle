@@ -4,7 +4,7 @@ import {
   MAX_GUESS_ATTEMPTS,
   VICTORY_MESSAGE,
 } from "#shared/settings";
-import { ref, computed } from "vue";
+import { ref, computed, reactive } from "vue";
 import words from "#shared/settings/words.json";
 
 const props = defineProps({
@@ -16,6 +16,20 @@ const props = defineProps({
 });
 
 const guessesSubmitted = ref<string[]>([]);
+
+const lettersStatus = reactive<Record<string, "correct" | "almost" | "incorrect" | null>>({});
+
+function updateLettersUsed(guess: string, ) {
+  guess.split("").forEach((letter, index) => {
+    if (props.wordOfTheDay[index] === letter) {
+      lettersStatus[letter] = "correct";
+    } else if (props.wordOfTheDay.includes(letter)) {
+      lettersStatus[letter] = "almost";
+    } else {
+      lettersStatus[letter] = "incorrect";
+    }
+  });
+}
 
 const isGameOver = computed(
   () =>
@@ -36,7 +50,7 @@ const countOfEmptyGuesses = computed(() => {
         <guess-view :answer="wordOfTheDay" :guess="guess"/>
       </li>
       <li>
-        <GuessInput :disabled="isGameOver" @guess-submitted="guess => guessesSubmitted.push(guess)"/>
+        <GuessInput :disabled="isGameOver" @guess-submitted="guess => guessesSubmitted.push(guess)" @letters-status="guess =>  updateLettersUsed(guess)"/> 
       </li>
       <li v-for="i in countOfEmptyGuesses" :key="`remaining-guess-${i}`">
         <GuessView
@@ -51,6 +65,9 @@ const countOfEmptyGuesses = computed(() => {
           : DEFEAT_MESSAGE
       "
     />
+    <div class="m-4">
+      <KeyboardView :letters-status="lettersStatus" />
+    </div>
   </main>
 </template>
 
