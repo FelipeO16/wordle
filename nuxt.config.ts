@@ -7,5 +7,5 @@ export default defineNuxtConfig({
   },
 
   ssr: false,
-  modules: ['@nuxt/test-utils', '@nuxtjs/tailwindcss']
+  modules: ['@nuxt/test-utils', '@nuxtjs/tailwindcss', '@nuxt/icon']
 })
