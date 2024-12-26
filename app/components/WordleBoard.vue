@@ -45,6 +45,14 @@ const countOfEmptyGuesses = computed(() => {
 
 <template>
   <main>
+    <p v-if="isGameOver">
+      <div class="text-xl text-white mb-4" v-if="guessesSubmitted.includes(wordOfTheDay)">
+        {{ VICTORY_MESSAGE }}
+      </div>
+      <div class="text-xl text-white mb-4" v-else>
+        {{ DEFEAT_MESSAGE }}
+      </div>
+    </p>
     <ul>
       <li v-for="guess, index in guessesSubmitted">
         <guess-view :answer="wordOfTheDay" :guess="guess"/>
@@ -57,14 +65,7 @@ const countOfEmptyGuesses = computed(() => {
          guess=""/>
       </li>
     </ul>
-    <p
-      v-if="isGameOver"
-      v-text="
-        guessesSubmitted.includes(wordOfTheDay)
-          ? VICTORY_MESSAGE
-          : DEFEAT_MESSAGE
-      "
-    />
+    
     <div class="m-4">
       <KeyboardView :letters-status="lettersStatus" />
     </div>
