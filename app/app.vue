@@ -22,14 +22,20 @@ const wordOfTheDay = getWordOfTheDay(words);
 
 <template>
   <div class="bg-[#0c0c0c] h-screen">
-    <header>
-      <div class="text-2xl">Wordle</div>
-      <div class="refs flex gap-2">
-        <a href="https://github.com/FelipeO16/wordle">Git</a>
-        <a href="https://linkedin.com/in/felipe--">In</a>
-      </div>
-    </header>
-    <WordleBoard :wordOfTheDay />
+    <div class="container mx-auto p-4">
+      <header>
+        <div class="text-2xl">Wordle</div>
+        <div class="refs flex gap-4 text-2xl">
+          <a href="https://github.com/FelipeO16/wordle">
+            <Icon name="skill-icons:github-light" />
+          </a>
+          <a href="https://linkedin.com/in/felipe--">
+            <Icon name="simple-icons:linkedin" />
+          </a>
+        </div>
+      </header>
+      <WordleBoard :wordOfTheDay />
+    </div>
   </div>
 </template>
 
@@ -43,6 +49,6 @@ const wordOfTheDay = getWordOfTheDay(words);
 }
 
 header {
-  @apply p-4 w-full flex justify-between text-[#ff0643] itim-regular;
+  @apply p-4 w-full flex justify-between text-white itim-regular;
 }
 </style>
